@@ -1,13 +1,19 @@
+
+
+########################################################################################################
+# Create variables
+########################################################################################################
+
 variable "aws_region" {
   type        = string
   description = "AWS region to use for resources."
-  default     = "us-east-1"
+  default     = "us-east-2"
 }
 
 variable "aws_azs" {
   type        = list(string)
   description = "AWS Availability Zones"
-  default     = ["us-east-1a", "us-east-1b"]
+  default     = ["us-east-2a", "us-east-2b"]
 }
 
 variable "enable_dns_hostnames" {
@@ -37,7 +43,7 @@ variable "instance_type" {
 variable "company" {
   type        = string
   description = "Company name for resource tagging"
-  default     = "CT"
+  default     = "emagetech"
 }
 
 variable "project" {
@@ -49,21 +55,27 @@ variable "project" {
 variable "naming_prefix" {
   type        = string
   description = "Naming prefix for all resources."
-  default     = "WebServer"
+  default     = "webserver"
 }
 
 variable "environment" {
   type        = string
   description = "Environment for deployment"
-  default     = "dev"
+  default     = "emagetech.co"
 }
 
 variable "instance_key" {
-  default = "WorkshopKeyPair"
+  default = "workshop-key"
 }
 
 variable "email_address" {
   type        = list(string)
   description = "List of email addresses to receive email alert"
-  default     = ["ceyinib951@grassdev.com"]
+  default     = ["solomon.fwilliams@gmail.com"]
 }
+
+# variable "slack_webhook_url" {
+#   type        = string
+#   description = "The Slack webhook URL to send notifications"
+#   default     = ["solomon.fwilliams@gmail.com"]
+# }

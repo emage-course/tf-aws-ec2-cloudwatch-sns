@@ -1,6 +1,6 @@
-####################################################
-# Create VPC and components
-####################################################
+########################################################################################################
+# Create the VPC
+########################################################################################################
 
 module "vpc" {
   source                        = "./modules/vpc"
@@ -13,23 +13,24 @@ module "vpc" {
   naming_prefix                 = local.naming_prefix
 }
 
-####################################################
+########################################################################################################
 # Create Web Server Instances
-####################################################
+########################################################################################################
 
 module "web" {
   source             = "./modules/web"
   instance_type      = var.instance_type
-  instance_key       = var.instance_key
+  instance_key       = aws_key_pair.workshopkeypair.key_name
   common_tags        = local.common_tags
   naming_prefix      = local.naming_prefix
   public_subnets     = module.vpc.public_subnets
   security_group_ec2 = module.vpc.security_group_ec2
 }
 
-####################################################
+########################################################################################################
 # Create an SNS topic with a email subscription
-####################################################
+########################################################################################################
+
 resource "aws_sns_topic" "topic" {
   name = "WebServer-CPU_Utilization_alert"
 
@@ -45,9 +46,28 @@ resource "aws_sns_topic_subscription" "topic_email_subscription" {
   endpoint  = var.email_address[count.index]
 }
 
-####################################################
+########################################################################################################
+# SNS Topic Subscription for Slack
+########################################################################################################
+
+# resource "aws_sns_topic_subscription" "topic_slack_subscription" {
+#   topic_arn = aws_sns_topic.topic.arn
+#   protocol  = "https"
+#   endpoint  = var.slack_webhook_url
+
+#   filter_policy = jsonencode({
+#     EventType = ["ALERT", "NOTIFICATION"]
+#   })
+
+#   tags = merge(var.common_tags, {
+#     Name = "${var.naming_prefix}-slack-subscription"
+#   })
+# }
+
+########################################################################################################
 # Create a cloudwatch alarm for EC2 instances and alarm_actions to SNS topic
-####################################################
+########################################################################################################
+
 resource "aws_cloudwatch_metric_alarm" "ec2_cpu" {
   comparison_operator       = "GreaterThanOrEqualToThreshold"
   evaluation_periods        = "2"
@@ -70,3 +90,4 @@ resource "aws_cloudwatch_metric_alarm" "ec2_cpu" {
     Name = "${local.naming_prefix}-cloudwatch-alarm"
   })
 }
+
