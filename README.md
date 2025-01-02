@@ -48,11 +48,11 @@ security_groups_ec2 = [
 
 SNS topic created:
 
-![Alt text](images/snstopic.png)
+<!-- ### ![Alt text](images/snstopic.png) -->
 
 Subscription confirmation:
 
-![Alt text](images/sub1.png)
+### ![Alt text](images/sub1.png)
 
 ![Alt text](images/sub2.png)
 
