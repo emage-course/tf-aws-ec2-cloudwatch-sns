@@ -19,13 +19,15 @@ variable "email_address" {
 ```
 
 # Other notes
+
 1. Metric somtimes goes to "INSUFFICIENT_DATA" state because of multiple reasons. Refer to https://repost.aws/knowledge-center/cloudwatch-alarm-insufficient-data-state
 
 Missing monitoring data is treated as good using "treat_missing_data" param
 
 2. For explanation purpose, detailed monitoring is enabled for EC2 instances for monitoring every 1 minute using "monitoring" param. This will incur more charges.
 
-Terraform Apply Output: 
+Terraform Apply Output:
+
 ```
 Apply complete! Resources: 14 added, 0 changed, 0 destroyed.
 
@@ -43,6 +45,7 @@ security_groups_ec2 = [
   "sg-0000000000000000",
 ]
 ```
+
 SNS topic created:
 
 ![Alt text](images/snstopic.png)
@@ -65,6 +68,7 @@ Cloudwatch Alarms:
 
 Stressing first EC2:
 We need to install stress package:
+
 ```
  amazon-linux-extras install epel -y
  yum install stress -y
@@ -91,20 +95,30 @@ Both instances in alarm state:
 
 ![Alt text](images/alarm2.png)
 
-
-Terraform Destroy Output:
-```
-Destroy complete! Resources: 14 destroyed.
-```
-
 ### 1. List SNS Topics
+
 aws sns list-topics
 
 ### 2. List Subscriptions
+
 aws sns list-subscriptions
-aws sns list-subscriptions-by-topic --topic-arn <TopicArn>
+aws sns list-subscriptions-by-topic --topic-arn `<TopicArn>`
 aws sns list-topics
 
 ### List Subscriptions for a Specific Topic:
+
 aws sns list-subscriptions-by-topic --topic-arn arn:aws:sns:us-east-1:123456789012:my-topic
 
+### After deploying your Terraform configuration, it's essential to verify the status of the email subscription you've configured. Here's how you can proceed:
+
+1. **Check Your Email Inbox:**
+   * Terraform can create an Amazon Simple Notification Service (SNS) topic and an email subscription. After deployment, you should receive a confirmation email from AWS SNS. Open this email and click the confirmation link to activate the subscription.** **[Stack Overflow](https://stackoverflow.com/questions/67348642/can-we-add-an-sns-topic-from-terraform-with-email-subscription?utm_source=chatgpt.com)
+2. **Verify Subscription Status in AWS Console:**
+   * Log in to the** **[AWS** **Management** **Console](https://aws.amazon.com/console/).
+   * Navigate to the** ****SNS** service.
+   * Select the** ****Topics** section and choose the topic you created.
+   * Under the** ****Subscriptions** tab, confirm that your email address appears with a status of** ** **Confirmed** .
+3. **Troubleshoot Subscription Issues:**
+   * If you haven't received the confirmation email, check your spam or junk folder.
+   * Ensure that the email address used in your Terraform configuration is correct and accessible.
+   * If the subscription status remains** ** **PendingConfirmation** , resend the confirmation email from the AWS SNS console.
