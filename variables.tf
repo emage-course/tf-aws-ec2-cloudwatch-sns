@@ -71,11 +71,11 @@ variable "instance_key" {
 variable "email_address" {
   type        = list(string)
   description = "List of email addresses to receive email alert"
-  default     = ["solomon.fwilliams@gmail.com"]
+  default     = ["jdoe@gmail.com"]
 }
 
 # variable "slack_webhook_url" {
 #   type        = string
 #   description = "The Slack webhook URL to send notifications"
-#   default     = ["solomon.fwilliams@gmail.com"]
+#   default     = ["jdoe@gmail.com"]
 # }

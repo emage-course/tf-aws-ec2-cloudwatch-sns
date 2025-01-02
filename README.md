@@ -14,7 +14,7 @@ In variables.tf, on line 72, change the default email address to your email addr
 variable "email_address" {
   type        = list(string)
   description = "List of email addresses to receive email alerts"
-  default     = ["solomon.fwilliams@gmail.com"]
+  default     = ["jdoe@gmail.com"]
 }
 ```
 
